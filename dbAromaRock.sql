@@ -28,3 +28,8 @@ INSERT INTO users (first_name, last_name, email, password, phone_number) VALUES
 INSERT INTO menu (name, description, price, category, image_url) VALUES
 ('Cappuccino', 'Un delicioso cappuccino con espuma de leche', 3.50, 'Bebidas', 'https://example.com/images/cappuccino.jpg'),
 ('Tarta de Chocolate', 'Tarta de chocolate rica y cremosa', 4.00, 'Postres', 'https://example.com/images/tarta_chocolate.jpg');
+
+insert into users (first_name, last_name, email, password, phone_number, status) values
+('Jhon', 'Doe', 'jhon.doe@example.com', 'hashed_password_789', '555-555-5555', 'suspended');
+insert into users (first_name, last_name, email, password, phone_number, status) values
+('Jane', 'Smith', 'jane.smith@example.com', 'hashed_password_012', '555-555-5556', 'deleted');
