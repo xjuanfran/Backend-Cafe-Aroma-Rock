@@ -1,4 +1,6 @@
 import pool from "../db.js";
+import bcrypt from "bcrypt";
+import { createUserSchema } from "../schemas/user.schema.js";
 
 // Get all users
 const getAllUsers = async (req, res) => {
@@ -26,9 +28,34 @@ const getUserByEmail = async (req, res) => {
     }
 }
 
+// Create a new user
+const createUser = async (req, res) => {
+    try {
+        // Validate request body
+        const validationDataUser = createUserSchema.safeParse(req.body);
+        if (!validationDataUser.success) {
+            console.error("Validation error:", validationDataUser.error.issues);
+            return res.status(400).json({ error: validationDataUser.error.errors });
+        }
+
+        const { first_name, last_name, email, password, phone_number } = validationDataUser.data;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const result = await pool.query(
+            "INSERT INTO users (first_name, last_name, email, password, phone_number) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+            [first_name, last_name, email, hashedPassword, phone_number] 
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error("Error creating user:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }   
+}
+
 export { getAllUsers, 
-         getUserByEmail 
-        //createUser,
+         getUserByEmail, 
+         createUser
         //updateUser,
         //deleteUser
     };
