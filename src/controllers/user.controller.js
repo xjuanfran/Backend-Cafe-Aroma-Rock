@@ -72,9 +72,27 @@ const updateUser = async (req, res) => {
     }   
 }
 
+// Delete a user (soft delete)  
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await pool.query(
+            "UPDATE users SET status = 'inactive' WHERE user_id = $1 RETURNING *",
+            [id]
+        );
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}   
+
 export { getAllUsers, 
          getUserByEmail, 
          createUser,
-         updateUser
-        //deleteUser
+         updateUser,
+         deleteUser
     };

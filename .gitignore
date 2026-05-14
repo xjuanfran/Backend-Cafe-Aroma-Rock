@@ -17,6 +17,3 @@ Thumbs.db
 # Build
 dist/
 build/
-
-# pnpm-lock.yaml
-pnpm-lock.yaml

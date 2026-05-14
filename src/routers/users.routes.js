@@ -1,21 +1,21 @@
 import { Router } from "express";
-import { getAllUsers,getUserByEmail, createUser, updateUser} from "../controllers/user.controller.js";
+import { getAllUsers,getUserByEmail, createUser, updateUser, deleteUser} from "../controllers/user.controller.js";
 
 const router = Router();
 
-// Get all users
+//Route for getting all users
 router.get("/api/user", getAllUsers);
 
-// Get a user by email
+// Route for getting a user by email
 router.get("/api/user/:email", getUserByEmail);
 
-// Create a new user  
+// Route for creating a new user
 router.post("/api/createUser", createUser);
 
- //Update a user
+ // Route for updating a user
 router.patch("/api/updateUser/:id", updateUser);
 
-// Delete a user
-//router.patch("/user/delete/:id", deleteUser);
+// Route for soft deleting a user
+router.patch("/api/deleteUser/:id", deleteUser);
 
 export default router;
