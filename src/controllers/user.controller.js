@@ -53,9 +53,28 @@ const createUser = async (req, res) => {
     }   
 }
 
+// Update a user
+const updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { first_name, last_name, email, phone_number } = req.body;
+    try {
+        const result = await pool.query(
+            "UPDATE users SET first_name = $1, last_name = $2, email = $3, phone_number = $4 WHERE user_id = $5 RETURNING *",
+            [first_name, last_name, email, phone_number, id]
+        );  
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }   
+}
+
 export { getAllUsers, 
          getUserByEmail, 
-         createUser
-        //updateUser,
+         createUser,
+         updateUser
         //deleteUser
     };

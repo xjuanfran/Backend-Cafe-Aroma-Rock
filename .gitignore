@@ -1,5 +1,5 @@
 # Node
-node_modules/
+node_modules
 
 # Env
 .env
@@ -17,3 +17,6 @@ Thumbs.db
 # Build
 dist/
 build/
+
+# pnpm-lock.yaml
+pnpm-lock.yaml
