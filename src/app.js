@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 
 import usersRoutes from "./routers/users.routes.js";
+import authUserRoutes from "./routers/authUser.route.js";
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(usersRoutes);
+app.use(authUserRoutes);
 
 app.use((err, req, res, next) => {
     return res.json({ message: err.message });
