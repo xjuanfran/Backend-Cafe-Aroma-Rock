@@ -1,12 +1,16 @@
-import { email } from "zod";
 import pool from "../db.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import {authUserSchema} from "../schemas/authUser.schema.js";
 
 export const loginUser = async (req, res) => {
+    const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY
+    const {email, password} = authUserSchema.parse(req.body);
+    
     try {
-        const {email, password} = authUserSchema.parse(req.body);
         const result = await pool.query("SELECT user_id, email, password FROM users WHERE email = $1 AND status = 'active'", [email]);
+        // Generate JWT token with user email and set expiration time
+        const token = jwt.sign({email}, SECRET_JWT_KEY, {expiresIn: "1h"});
         const {rows} = result;
 
         if (rows.length === 0) {
@@ -20,7 +24,7 @@ export const loginUser = async (req, res) => {
         }
         // Exclude password from the response
         const {password: _, ...publicUser} = user;
-        res.json({message: "Login successful", publicUser});
+        res.json({message: "Login successful", publicUser, token});
     } catch (error) {
         console.error("Error logging in user:", error);
         res.status(500).json({error: "Internal Server Error"});
