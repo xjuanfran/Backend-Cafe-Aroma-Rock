@@ -24,7 +24,11 @@ export const loginUser = async (req, res) => {
         }
         // Exclude password from the response
         const {password: _, ...publicUser} = user;
-        res.json({message: "Login successful", publicUser, token});
+        res.cookie("token", token, { 
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+            sameSite: "strict"
+        }).send({message: "Login successful", user: publicUser});
     } catch (error) {
         console.error("Error logging in user:", error);
         res.status(500).json({error: "Internal Server Error"});
