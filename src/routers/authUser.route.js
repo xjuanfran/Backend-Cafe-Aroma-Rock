@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUser } from "../controllers/authUser.controller.js";
+import { loginUser, logoutUser } from "../controllers/authUser.controller.js";
 
 const router = Router();
 
@@ -7,6 +7,6 @@ const router = Router();
 router.post("/api/login", loginUser);
 
 // Route for user logout
-// router.post("/api/logout", logoutUser);
+router.post("/api/logout", logoutUser);
 
 export default router;

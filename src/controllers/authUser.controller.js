@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {authUserSchema} from "../schemas/authUser.schema.js";
 
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
     const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY
     const {email, password} = authUserSchema.parse(req.body);
     
@@ -24,7 +24,7 @@ export const loginUser = async (req, res) => {
         }
         // Exclude password from the response
         const {password: _, ...publicUser} = user;
-        res.cookie("token", token, { 
+        res.cookie("accessToken", token, { 
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", // Use secure cookies in production
             sameSite: "strict"
@@ -35,3 +35,12 @@ export const loginUser = async (req, res) => {
     }   
 };
 
+const logoutUser = (req, res) => {
+    res.clearCookie("accessToken")
+    .json({message: "Logout successful"});
+};
+
+export {
+    loginUser, 
+    logoutUser
+};
