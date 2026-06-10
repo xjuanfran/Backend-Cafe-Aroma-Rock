@@ -8,8 +8,14 @@ import authUserRoutes from "./routers/authUser.route.js";
 
 const app = express();
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://cafe-aroma-rock.vercel.app/"
+];
+
 app.use(morgan("dev"));
 app.use(cors({
+    origin: allowedOrigins,
     credentials: true,
 }));
 app.use(express.json());
