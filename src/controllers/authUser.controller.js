@@ -10,7 +10,7 @@ const loginUser = async (req, res) => {
     try {
         const result = await pool.query("SELECT user_id, email, password FROM users WHERE email = $1 AND status = 'active'", [email]);
         // Generate JWT token with user email and set expiration time
-        const token = jwt.sign({email}, SECRET_JWT_KEY, {expiresIn: "1h"});
+        const token = jwt.sign({email}, SECRET_JWT_KEY, {expiresIn: "4h"});
         const {rows} = result;
 
         if (rows.length === 0) {
