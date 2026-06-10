@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
         res.cookie("accessToken", token, { 
             httpOnly: true,
             secure: true,
-            sameSite: "strict"
+            sameSite: "none"
         }).send({message: "Login successful", user: publicUser});
     } catch (error) {
         res.status(500).json({error: "Internal Server Error"});
