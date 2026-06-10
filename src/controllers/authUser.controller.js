@@ -30,7 +30,6 @@ const loginUser = async (req, res) => {
             sameSite: "strict"
         }).send({message: "Login successful", user: publicUser});
     } catch (error) {
-        console.error("Error logging in user:", error);
         res.status(500).json({error: "Internal Server Error"});
     }   
 };
