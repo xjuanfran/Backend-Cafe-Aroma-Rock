@@ -26,7 +26,7 @@ const loginUser = async (req, res) => {
         const {password: _, ...publicUser} = user;
         res.cookie("accessToken", token, { 
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+            secure: true,
             sameSite: "strict"
         }).send({message: "Login successful", user: publicUser});
     } catch (error) {
