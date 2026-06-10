@@ -10,7 +10,7 @@ const app = express();
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://cafe-aroma-rock.vercel.app/"
+    "https://cafe-aroma-rock.vercel.app/login"
 ];
 
 app.use(morgan("dev"));
