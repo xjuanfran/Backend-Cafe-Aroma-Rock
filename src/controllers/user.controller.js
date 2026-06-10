@@ -8,7 +8,6 @@ const getAllUsers = async (req, res) => {
         const result = await pool.query("SELECT * FROM users WHERE status = 'active'");
         res.json(result.rows);
     } catch (error) {
-        console.error("Error fetching users:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
@@ -23,7 +22,6 @@ const getUserByEmail = async (req, res) => {
         }
         res.json(result.rows[0]);
     } catch (error) {
-        console.error("Error fetching user:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
@@ -34,7 +32,6 @@ const createUser = async (req, res) => {
         // Validate request body
         const validationDataUser = createUserSchema.safeParse(req.body);
         if (!validationDataUser.success) {
-            console.error("Validation error:", validationDataUser.error.issues);
             return res.status(400).json({ error: validationDataUser.error.errors });
         }
 
@@ -48,7 +45,6 @@ const createUser = async (req, res) => {
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        console.error("Error creating user:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }   
 }
@@ -67,7 +63,6 @@ const updateUser = async (req, res) => {
         }
         res.json(result.rows[0]);
     } catch (error) {
-        console.error("Error updating user:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }   
 }
@@ -85,7 +80,6 @@ const deleteUser = async (req, res) => {
         }
         res.json(result.rows[0]);
     } catch (error) {
-        console.error("Error deleting user:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 }   
